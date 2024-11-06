@@ -11159,3 +11159,9 @@ java.net.UnknownHostException: jakarta.ee
 
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2024-11-06 07:14:26.965
 !MESSAGE Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-11-06 07:26:23.269
+!MESSAGE Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+
+!ENTRY org.eclipse.m2e.logback.appender 2 0 2024-11-06 07:26:23.278
+!MESSAGE Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!

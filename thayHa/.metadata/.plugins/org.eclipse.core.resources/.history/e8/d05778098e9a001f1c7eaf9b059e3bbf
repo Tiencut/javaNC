@@ -1,0 +1,51 @@
+package CONTROLLER;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import sachMODEL.Sach;
+import sachMODEL.sachBO;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ * Servlet implementation class xoa
+ */
+@WebServlet("/xoa")
+public class xoa extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public xoa() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		sachBO sBO = new sachBO();
+		ArrayList<Sach> listSach = sBO.getListSach();
+		if (listSach != null && !listSach.isEmpty()) {
+			request.setAttribute("listSach", listSach);
+		} else {
+			request.setAttribute("listSach", new ArrayList<Sach>());
+		}
+		request.getRequestDispatcher("xoa.jsp").forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
+}

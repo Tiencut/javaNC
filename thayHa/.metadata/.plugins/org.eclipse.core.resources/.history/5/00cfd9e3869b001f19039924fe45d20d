@@ -1,0 +1,13 @@
+package testDB;
+
+import java.util.ArrayList;
+
+import loaiMODEL.loaiBO;
+
+public class testDB {
+	public static void main(String[] args) {
+		KetNoiDB.KetNoiDB.getConnection();
+		loaiBO loai = new loaiBO();
+	 	ArrayList<loai>listLoai = loai.getListLoai();
+	}
+}

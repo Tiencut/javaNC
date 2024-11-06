@@ -1,0 +1,7 @@
+package DangNhapMODEL;
+
+public class DangNhap {
+	String TenDangNhap;
+	String MatKhau;
+	String Quyen;
+}

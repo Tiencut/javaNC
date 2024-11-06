@@ -1,0 +1,18 @@
+package testDB;
+
+import java.util.ArrayList;
+
+import KhachHangMODEL.KhachHangBO;
+import loaiMODEL.loai;
+import loaiMODEL.loaiBO;
+
+public class testDB {
+	static void testKhachHang() {
+        KhachHangBO khBO = new KhachHangBO();
+        khBO.checkLogin("nkchung", "123"));
+	}
+	
+	public static void main(String[] args) {
+		testKhachHang();
+	}
+}

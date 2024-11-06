@@ -1,0 +1,9 @@
+package xoa;
+
+import KetNoiDB.KetNoiDB;
+
+public class testDB {
+	public static void main(String[] args) {
+		KetNoiDB.getConnection();
+	}
+}

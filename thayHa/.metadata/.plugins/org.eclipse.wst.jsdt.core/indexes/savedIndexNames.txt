@@ -1,0 +1,14 @@
+INDEX VERSION 1.4+D:\thayHa\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+828896745.index
+929195224.index
+1231487981.index
+1602713951.index
+4193770456.index
+1100474808.index
+338624738.index
+1602713951.index
+1515233076.index
+1823828959.index
+2588375196.index
+4000770251.index
+2640231104.index

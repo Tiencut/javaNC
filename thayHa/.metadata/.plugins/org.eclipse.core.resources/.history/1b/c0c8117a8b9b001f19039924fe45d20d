@@ -1,0 +1,19 @@
+package loaiMODEL;
+
+import java.util.ArrayList;
+
+public class loaiBO {
+	loaiDAO loaiDAO = new loaiDAO();
+	ArrayList<loai> listLoai = loaiDAO.getLoai();
+	private ArrayList<loai> listTenLoai;
+		
+	public ArrayList<loai> getListTenLoai() {
+		listTenLoai = new ArrayList<loai>();
+		try {
+			listLoai.stream().forEach(l -> listTenLoai.add(l));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listTenLoai;
+	}
+}
