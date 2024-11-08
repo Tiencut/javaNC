@@ -1,7 +1,0 @@
-package DangNhapMODEL;
-
-public class DangNhapBO {
-	public boolean checkDangNhap() {
-		
-	}
-}

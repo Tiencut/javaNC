@@ -1,6 +1,0 @@
-package DangNhapMODEL;
-
-public class DangNhap {
-	String name;
-	String pass;
-}
