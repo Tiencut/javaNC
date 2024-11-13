@@ -25,9 +25,27 @@
 				<th>damua</th>
 			</tr>
 			<%
-			ArrayList<LichSu> listLichSu = (ArrayList<LichSu>) request.getAttribute("listLichSu");
-			if (listLichSu != null) {
-				for (LichSu lichSu : listLichSu) {
+			ArrayList<LichSu> listLichSuDaMua = (ArrayList<LichSu>) request.getAttribute("listLichSuDaMua");
+			if (listLichSuDaMua != null) {
+				for (LichSu lichSu : listLichSuDaMua) {
+			%>
+			<tr>
+				<td><%=lichSu.getMakh()%></td>
+				<td><%=lichSu.getTensach()%></td>
+				<td><%=lichSu.getSoLuongMua()%></td>
+				<td><%=lichSu.getGia()%></td>
+				<td><%=lichSu.getThanhTien()%></td>
+				<td><%=lichSu.getNgayMua()%></td>
+				<td><%=lichSu.isDamua()%></td>
+			</tr>
+			<%
+			}
+			}
+			%>
+			<%
+			ArrayList<LichSu> listLichSuChuaMua = (ArrayList<LichSu>) request.getAttribute("listLichSuChuaMua");
+			if (listLichSuChuaMua != null) {
+				for (LichSu lichSu : listLichSuChuaMua) {
 			%>
 			<tr>
 				<td><%=lichSu.getMakh()%></td>

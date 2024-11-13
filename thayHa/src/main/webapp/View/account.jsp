@@ -14,8 +14,8 @@
 			<!-- Cột trái: Đăng ký -->
 			<div class="col-md-6" style="border-right: 2px dashed black;">
 				<h2>Đăng ký</h2>
-				<form action="accountController?action=Register" method="post">
-					<input type="hidden" name="action" value="signup">
+				<form action="accountController" method="post">
+					<input type="hidden" name="action" value="Register">
 					<div class="form-group">
 						<label for="fullName">Họ tên:</label> 
 						<input type="text" class="form-control" id="fullName" name="fullName" required>
@@ -51,8 +51,8 @@
 			<!-- Cột phải: Đăng nhập -->
 			<div class="col-md-6">
 				<h2>Đăng nhập</h2>
-				<form action="accountController?action=Login" method="post">
-					<input type="hidden" name="action" value="login">
+				<form action="accountController" method="post">
+					<input type="hidden" name="action" value="Login">
 					<div class="form-group">
 						<label for="username">Tên đăng nhập:</label> 
 						<input type="text" class="form-control" id="username" name="username" required>

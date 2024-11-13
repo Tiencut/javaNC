@@ -6,10 +6,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import loaiMODEL.loai;
-import loaiMODEL.loaiBO;
 import sachMODEL.Sach;
 import sachMODEL.sachBO;
+import sachMODEL.sachDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,41 +25,24 @@ public class indexController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Lấy danh sách loại từ database truyền vào Attribute "listTenLoai"
-		loaiBO loaiBo = new loaiBO();
-		ArrayList<loai> listTenLoai = loaiBo.getListTenLoai();
-		request.setAttribute("listTenLoai", listTenLoai);
+		UTILS.utils.loadLoaiSach(request);
 
-		//
-		HttpSession session = request.getSession(false);
-		if (session != null) {
-			String username = (String) session.getAttribute("username");
-			request.setAttribute("username", username);
-		}
+		// 
+		// HttpSession session = request.getSession(false);
+		// if (session != null) {
+		// 	String username = (String) session.getAttribute("username");
+		// 	request.setAttribute("username", username);
+		// }
 
+		// phân trang
+		setPhanTrang(request);
 		// Kiểm tra tham số "action"
-		String action = request.getParameter("action");
-		if (action == null || (!action.equals("timSach") && !action.equals("sachTheoLoai"))) {
-			sachBO sBO = new sachBO();
-			ArrayList<Sach> listSach = sBO.getListSach();
-			request.setAttribute("listSach", listSach);
-		}
-
-		// Chuyển tiếp yêu cầu đến trang index.jsp
-		request.getRequestDispatcher("index.jsp").forward(request, response);
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+		int index = request.getParameter("index") == null ? 1 : Integer.parseInt(request.getParameter("index"));
 		String action = request.getParameter("action");
 		sachBO sBO = new sachBO();
-
 		if (action != null) {
 			switch (action) {
-			case "timSach":
+				case "timSach":
 				String maSachCanTim = request.getParameter("maSachCanTim");
 				ArrayList<Sach> listSachCanTim = sBO.TimSachTheoMaSach(maSachCanTim);
 				request.setAttribute("listSach", listSachCanTim);
@@ -70,17 +52,27 @@ public class indexController extends HttpServlet {
 				ArrayList<Sach> sachTheoLoai = sBO.sachTheoLoai(maLoai);
 				request.setAttribute("listSach", sachTheoLoai);
 				break;
-			case "themVaoGio":
-//				String maSach = request.getParameter("maSach");
-//				HttpSession session = request.getSession();
-//				ArrayList<String> gioHang = (ArrayList<String>) session.getAttribute("gioHang");
-//				gioHang.add(maSach);
-//				session.setAttribute("gioHang", gioHang);
-				response.sendRedirect("GioHangController");
-				break;
 			default:
 				break;
 			}
+		} else {
+			request.setAttribute("index", index);
+			ArrayList<Sach> listSach = (new sachBO()).getListSachPhanTrang(index);
+			request.setAttribute("listSach", listSach);
 		}
+
+		// Chuyển tiếp yêu cầu đến trang index.jsp
+		request.getRequestDispatcher("index.jsp").forward(request, response);
+	}
+
+	private void setPhanTrang(HttpServletRequest request) {
+		int soLuongSach = (new sachDAO()).getSoLuongSach();
+		int soLuongSachTrenTrang = 9;
+		int soTrang = (int) Math.ceil((double) soLuongSach / soLuongSachTrenTrang);
+		request.setAttribute("soTrang", soTrang);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 	}
 }

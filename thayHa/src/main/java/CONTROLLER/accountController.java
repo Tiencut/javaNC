@@ -33,17 +33,7 @@ public class accountController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		 String action = request.getParameter("action");
-		 if ("logout".equals(action)) {
-		 	// Xóa session hiện tại
-		 	HttpSession session = request.getSession(false);
-		 	if (session != null) {
-		 		session.invalidate();
-		 	}
-		 	response.sendRedirect("indexController");
-		 } else {
-		 	request.getRequestDispatcher("View/account.jsp").forward(request, response);
-		 }
+		request.getRequestDispatcher("View/account.jsp").forward(request, response);
 	}
 
 	/**
@@ -62,46 +52,56 @@ public class accountController extends HttpServlet {
 
 	private void handleLogin(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
 		KhachHangBO khachHangBO = new KhachHangBO();
 		if (khachHangBO.checkLogin(username, password)) {
-			// tạo session
-			HttpSession session = request.getSession();
 			session.setAttribute("username", username);
-
 			// session giỏ hàng not exist -> tạo mới
-			if (session.getAttribute("gioHang")== null) {
+			if (session.getAttribute("gioHang") == null) {
 				session.setAttribute("gioHang", new ArrayList<String>());
 			}
 
+			// thiết lập thông báo đăng nhập thành công
+			session.setAttribute("successMessage", "Đăng nhập thành công!");
+
 			response.sendRedirect("indexController");
 		} else {
-			request.setAttribute("errorMessage", "Invalid username or password");
-			request.getRequestDispatcher("View/account.jsp").forward(request, response);
+			session.setAttribute("errorMessage", "Invalid username or password");
+			response.sendRedirect("accountController");
+			return;
 		}
 	}
 
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		// Lưu thông tin vào session
+		HttpSession session = request.getSession();
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String confirmPassword = request.getParameter("confirmPassword");
 
 		if (!password.equals(confirmPassword)) {
-			request.setAttribute("errorMessage", "Password and confirm password do not match");
+			session.setAttribute("errorMessage", "Password and confirm password do not match");
+			response.sendRedirect("accountController");
 			return;
 		}
 
 		// Kiểm tra username đã tồn tại chưa
 		KhachHangBO khBO = new KhachHangBO();
 		if (khBO.isUsernameExist(username)) {
-			request.setAttribute("errorMessage", "Username already exists");
-			request.getRequestDispatcher("accountController").forward(request, response);
+			// Lưu thông tin vào session
+			session = request.getSession();
+			session.setAttribute("errorMessage", "Username already exists");
+
+			// Chuyển hướng
+			response.sendRedirect("accountController");
 			return;
 		}
-
 	}
 
 }

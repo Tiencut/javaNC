@@ -1,0 +1,13 @@
+CREATE TABLE NhaCungCap (
+    maNCC INT PRIMARY KEY,
+    tenNCC NVARCHAR(100) NOT NULL
+);
+
+CREATE TABLE DienThoai (
+    maDT INT PRIMARY KEY,
+    tenDT NVARCHAR(100) NOT NULL,
+    soLuong INT NOT NULL,
+    gia DECIMAL(18, 2) NOT NULL,
+    maNCC INT,
+    FOREIGN KEY (maNCC) REFERENCES NhaCungCap(maNCC)
+);

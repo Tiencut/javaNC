@@ -5,8 +5,8 @@ import java.util.Date;
 public class Sach {
     private String maSach;
     private String tenSach;
-    private Long soLuong;
-    private Long gia;
+    private long soLuong;
+    private long gia;
     private String maLoai;
     private String soTap;
     private String anh;
@@ -16,7 +16,7 @@ public class Sach {
 	public Sach() {
 	}
 
-	public Sach(String maSach, String tenSach, Long soLuong, Long gia, String maLoai, String soTap, String anh, Date ngayNhap, String tacGia) {
+	public Sach(String maSach, String tenSach, long soLuong, long gia, String maLoai, String soTap, String anh, Date ngayNhap, String tacGia) {
 		this.maSach = maSach;
 		this.tenSach = tenSach;
 		this.soLuong = soLuong;
@@ -48,7 +48,7 @@ public class Sach {
 		return soLuong;
 	}
 
-	public void setSoLuong(Long soLuong) {
+	public void setSoLuong(long soLuong) {
 		this.soLuong = soLuong;
 	}
 
@@ -56,7 +56,7 @@ public class Sach {
 		return gia;
 	}
 
-	public void setGia(Long gia) {
+	public void setGia(long gia) {
 		this.gia = gia;
 	}
 

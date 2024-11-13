@@ -12,7 +12,7 @@
 <body>
 	<jsp:include page="Nav.jsp"/>
 	
-		<div class="container-fluid">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-2">
                 <%
@@ -33,53 +33,70 @@
 			</div>
 
 
-			<!--  -->
+			<!-- giỏ hàng -->
 			<div class="col-sm-8" style="background-color: pink;">
-				<table class="table table-hover">
-					<thead>
-						<td><input type="checkbox" id="select-all" onclick="toggleCheckboxes(this)""></td>
-						<td>Sản phẩm</td>
-						<td>Số lượng</td>
-						<td>Số lượng</td>
-						<td>Đơn Giá</td>
-						<td>Thành tiền</td>
-						<td>Thao tác</td>
-					</thead>
+				<form action="GioHangController" method="post">
+					<table class="table table-hover">
+						<thead>
+							<th><input type="checkbox" id="listMaSachCanXoa" onclick="toggleCheckboxes(this)"></th>
+							<th>Sản phẩm</th>
+							<th>Số lượng</th>
+							<th>Đơn Giá</th>
+							<th>Thành tiền</th>
+							<th>Thao tác</th>
+						</thead>
 
-					<tbody>
-						<%
-						ArrayList<Sach> listSachTrongGio = (ArrayList<Sach>) request.getAttribute("listSachTrongGio");
-						if (listSachTrongGio != null) {
-							for (Sach h : listSachTrongGio) {
-						%>
+						<tbody>
+							<%
+							ArrayList<Sach> gioHang = (ArrayList<Sach>) session.getAttribute("gioHang");
+							if (gioHang != null) {
+								for (Sach h : gioHang) {
+							%>
 
-							<tr>
-								<td><input type="checkbox" class="item-checkbox"></td>
-								<td><%=h.getTenSach()%></td>
-								<td><%=h.getGia()%></td>
-								<td><%=h.getSoLuong()%></td>
-								<td>
-									<form action="GioHangController?action=sua&soLuong=<%=h.getSoLuong()%>" method="post">
-										<input type="number" name="soLuong" style="width: 50px">
-										<input type="submit" name="but1" value="Sua" class="btn-primary">
-									</form>
-								</td>
-								<td><%=h.getGia()*h.getSoLuong()%></td>
-								<td><a href="GioHangController?action=xoa&maSach=<%=h.getMaSach()%>">Xóa</a></td>
-							</tr>
-						<%
+								<tr>
+									<td><input type="checkbox" class="listMaSachCanXoa" value="<%=h.getMaSach()%>"></td>
+									<td><%=h.getTenSach()%></td>
+									<td>
+										<%=h.getSoLuong()%>
+											<form action="GioHangController?action=sua&soLuong=<%=h.getSoLuong()%>" method="post">
+											<input type="number" name="soLuong" style="width: 50px">
+											<input type="submit" name="but1" value="Sua" class="btn-primary">
+										</form>
+									</td>
+									<td><%=h.getGia()%></td>
+									<td><%=h.getGia()*h.getSoLuong()%></td>
+									<td>
+										<form action="GioHangController" method="post" style="display:inline;">
+											<input type="hidden" name="action" value="xoaKhoiGio">
+											<input type="hidden" name="maSachXoa" value="<%=h.getMaSach()%>">
+											<button type="submit" style="background:none;border:none;color:blue;text-decoration:underline;cursor:pointer;">Xóa</button>
+										</form>
+									</td>
+								</tr>
+							<%
+								}
 							}
-						}
-						%>
-					</tbody>
+							%>
+						</tbody>
 
-					<tfoot>
-						<td colspan="5" style="text-align: right">Tổng cộng:</td>
-						<td><%=listSachTrongGio.stream().mapToLong(sach -> sach.getGia()*sach.getSoLuong()).sum()%></td>
-						<td><input type="submit" value="Xoá đã chọn"></td>
-						<td><a href="GioHangController?action=XacNhanDatMua">Xác nhận đặt mua</a></td>
-					</tfoot>
-				</table>
+						<tfoot>
+							<%
+							if (gioHang != null) {
+							%>
+								<tr>
+									<td colspan="4" style="text-align: right">Tổng cộng:</td>
+									<td><%=gioHang.stream().mapToLong(sach -> sach.getGia() * sach.getSoLuong()).sum()%></td>
+									<td><input type="submit" name="action" value="xoaDaChon"></td>
+									<td><a href="XacNhanDatMuaController?action=XacNhanDatMua">Xác nhận đặt mua</a></td>
+								</tr>
+							<%
+							}
+							%>
+						</tfoot>
+
+						 <input type="hidden" name="action" value="xoaDaChon">
+					</table>
+				</form>
 			</div>
 
 			<!-- tìm kiếm -->
@@ -96,7 +113,7 @@
 
 <script>
 	function toggleCheckboxes(source) {
-		var checkboxes = document.querySelectorAll('.item-checkbox');
+		var checkboxes = document.querySelectorAll('.listMaSachCanXoa');
 		for (var i = 0; i < checkboxes.length; i++) {
 			checkboxes[i].checked = source.checked;
 		}

@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 
 /**
@@ -22,10 +24,19 @@ public class XacNhanDatMuaController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+
+        // check user đã đăng nhập chưa
+        String username = (session != null) ? (String) session.getAttribute("username") : null;
+        if (username == null) {
+            if (session != null)
+                session.setAttribute("errorMessage", "Quên đăng nhập kìa!");
+            response.sendRedirect("accountController");
+            return;
+        }
+		
+		
 		request.getRequestDispatcher("View/DatHang.jsp").forward(request, response);
 	}
 

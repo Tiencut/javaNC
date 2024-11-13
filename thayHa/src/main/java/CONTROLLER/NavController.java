@@ -24,35 +24,30 @@ public class NavController extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
+		
+		// nếu chưa login thì chuyển về trang login
 		String username = (session != null) ? (String) session.getAttribute("username") : null;
-
 		if (username == null) {
-			session = request.getSession(false);
-			request.setAttribute("errorMessage", "Quên đăng nhập kìa!");
-			response.sendRedirect("accountController");
-			// return;
+			session.setAttribute("errorMessage", "Quên đăng nhập kìa!");
+//			response.sendRedirect("accountController");
 		}
+		
 		request.getRequestDispatcher("View/Nav.jsp").forward(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
-		String username = (String) session.getAttribute("username");
 
+		// nếu chưa login thì chuyển về trang login
+		String username = (session != null) ? (String) session.getAttribute("username") : null;
 		if (username == null) {
+			session.setAttribute("errorMessage", "Quên đăng nhập kìa!");
 			response.sendRedirect("accountController");
-			return;
 		}
 
-		//
+		//	
 		String action = request.getParameter("action");
 		switch (action) {
 		case "xemGioHang":
@@ -64,8 +59,11 @@ public class NavController extends HttpServlet {
 		case "LichSuMuaHang":
 			response.sendRedirect("LichSuMuaHangController");
 			break;
-		case "LoginOrRegister":
-			response.sendRedirect("View/account.jsp");
+		case "Logout":
+		 	if (session != null) {
+		 		session.invalidate();
+		 	}
+		 	response.sendRedirect("indexController");
 			break;
 		default:
 			break;
